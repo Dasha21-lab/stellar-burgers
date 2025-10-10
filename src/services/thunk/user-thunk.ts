@@ -69,7 +69,7 @@ export const logoutUser = createAsyncThunk(
       deleteCookie('accessToken');
       localStorage.removeItem('refreshToken');
 
-      return null; // или можно clear() тогда очищаеться все
+      return null;
     } catch (error) {
       return rejectWithValue(error as Error);
     }

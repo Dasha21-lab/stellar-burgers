@@ -5,18 +5,15 @@ import { BurgerIngredientsUI } from '../ui/burger-ingredients';
 import { useSelector } from '../../services/store';
 import {
   ingredientsSelector,
-  ingredientsLoadingSelector
+  ingredientsLoadingSelector,
+  ingredientsErrorSelector
 } from '../../services/slices/ingredients-slice';
 import { Preloader } from '@ui';
 
 export const BurgerIngredients: FC = () => {
   const ingredients = useSelector(ingredientsSelector);
   const loading = useSelector(ingredientsLoadingSelector);
-
-   if (loading) {
-    return <Preloader />;
-  }
-
+  const error = useSelector(ingredientsErrorSelector);
 
   const buns = ingredients.filter(
     (ingredient: TIngredient) => ingredient.type === 'bun'
@@ -64,6 +61,14 @@ export const BurgerIngredients: FC = () => {
     if (tab === 'sauce')
       titleSaucesRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  if (loading) {
+    return <Preloader />;
+  }
+
+  if (error) {
+    return <div>Ошибка: {error}</div>;
+  }
 
   return (
     <BurgerIngredientsUI

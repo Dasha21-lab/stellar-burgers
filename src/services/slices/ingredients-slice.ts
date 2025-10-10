@@ -23,7 +23,6 @@ export const ingredientsSlice = createSlice({
       state.error = null;
     }
   },
-
   extraReducers: (builder) => {
     builder
       .addCase(fetchIngredients.pending, (state) => {
@@ -39,7 +38,6 @@ export const ingredientsSlice = createSlice({
         state.error = action.error.message;
       });
   },
-
   selectors: {
     ingredientsSelector: (state) => state.ingredients,
     ingredientsLoadingSelector: (state) => state.loading,

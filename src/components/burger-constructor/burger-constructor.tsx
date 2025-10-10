@@ -14,28 +14,23 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from '../../services/store';
 import { createOrder } from '../../services/thunk/create-order-thunk';
-import { authUserCheckedSelector } from '../../services/slices/user-slice';
+import { userDataSelector } from '../../services/slices/user-slice';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const constructorItems = useSelector(constructorItemsSelector);
+  const user = useSelector(userDataSelector);
   const orderRequest = useSelector(createOrderRequestSelector);
   const orderModalData = useSelector(orderModalDataSelector);
   const orderError = useSelector(createOrderErrorSelector);
-  const isAuthChecked = useSelector(authUserCheckedSelector);
-
-  useEffect(() => {
-    if (orderError) {
-      console.error('Order error:', orderError);
-    }
-  }, [orderError]);
 
   const onOrderClick = () => {
-    if (!isAuthChecked) {
+    if (!user) {
       return navigate('/login');
     }
+
     if (!constructorItems.bun || orderRequest) return;
 
     dispatch(
@@ -53,6 +48,12 @@ export const BurgerConstructor: FC = () => {
     dispatch(clearOrderModalData());
     dispatch(clearConstructor());
   };
+
+  useEffect(() => {
+    if (orderError) {
+      console.error('Ошибка заказа:', orderError);
+    }
+  }, [orderError]);
 
   const price = useMemo(
     () =>

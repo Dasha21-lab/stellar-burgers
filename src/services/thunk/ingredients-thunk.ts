@@ -6,8 +6,6 @@ export const fetchIngredients = createAsyncThunk(
   `${INGREDIENTS_SLICE_NAME}/fetchIngredients`,
   async () => {
     const response = await getIngredientsApi();
-    console.log(response)
     return response;
-  } 
+  }
 );
-

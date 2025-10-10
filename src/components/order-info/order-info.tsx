@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo } from 'react';
+import { FC, useEffect, useMemo, useRef } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
@@ -12,26 +12,24 @@ import { ingredientsSelector } from '../../services/slices/ingredients-slice';
 import { fetchOrderByNumber } from '../../services/thunk/orders-feed-thunk';
 
 export const OrderInfo: FC = () => {
-  const { number } = useParams<{ number: string }>();
   const dispatch = useDispatch();
+  const { number } = useParams<{ number: string }>();
 
   const orderData = useSelector(orderDetailsSelector);
   const ingredients: TIngredient[] = useSelector(ingredientsSelector);
   const loading = useSelector(orderLoadingSelector);
 
+  const lastRequestedNumberRef = useRef<string | null>(null);
+
   useEffect(() => {
-    if (number) {
-      dispatch(fetchOrderByNumber(parseInt(number)));
-    }
+    if (!number) return;
+
+    if (lastRequestedNumberRef.current === number) return;
+
+    lastRequestedNumberRef.current = number;
+    dispatch(fetchOrderByNumber(parseInt(number)));
   }, [dispatch, number]);
 
-//   useEffect(() => {
-//   if (number && !orderData) { // Запрос только если данных еще нет
-//     dispatch(fetchOrderByNumber(parseInt(number)));
-//   }
-// }, [dispatch, number, orderData]);
-
-  /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {
     if (!orderData || !ingredients.length) return null;
 

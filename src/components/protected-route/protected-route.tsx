@@ -7,8 +7,8 @@ import { useSelector } from '../../services/store';
 import { Navigate, useLocation } from 'react-router-dom';
 
 type ProtectedRouteProps = {
-  children: React.ReactElement; // Защищаемый компонент
-  publicRoute?: boolean; // Флаг публичного маршрута
+  children: React.ReactElement;
+  publicRoute?: boolean;
 };
 
 export function ProtectedRoute({ children, publicRoute }: ProtectedRouteProps) {
@@ -18,7 +18,7 @@ export function ProtectedRoute({ children, publicRoute }: ProtectedRouteProps) {
 
   if (!authUserCheck) {
     return <Preloader />;
-  } // Пока проверяется статус аутентификации, показываем прелоадер
+  }
 
   if (publicRoute && user) {
     const from = location.state?.from || { pathname: '/' };

@@ -22,12 +22,11 @@ import {
   useNavigate
 } from 'react-router-dom';
 import { ProtectedRoute } from '../protected-route/protected-route';
-import store, { useDispatch, useSelector } from '../../services/store';
+import store, { useDispatch } from '../../services/store';
 import { Provider } from 'react-redux';
 import { FC, useEffect } from 'react';
 import { fetchIngredients } from '../../services/thunk/ingredients-thunk';
 import { fetchApiUser } from '../../services/thunk/user-thunk';
-import { ingredientsSelector } from '../../services/slices/ingredients-slice';
 
 const App = () => (
   <BrowserRouter>
@@ -44,11 +43,14 @@ const RouteComponent: FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
- const background = location.state?.background;
- 
- const profileMatch = useMatch('/profile/orders/:number')?.params.number;
+
+  const locationState = location.state as { background?: Location };
+  const background = locationState && locationState.background;
+
+  const profileMatch = useMatch('/profile/orders/:number')?.params.number;
   const feedMatch = useMatch('/feed/:number')?.params.number;
   const orderNumber = profileMatch || feedMatch;
+  const orderTitle = `#${orderNumber && orderNumber.padStart(6, '0')}`;
 
   const handleModalClose = () => {
     navigate(-1);
@@ -58,27 +60,8 @@ const RouteComponent: FC = () => {
     // Загружаем ингредиенты
     dispatch(fetchIngredients());
 
-    // Проверяем аутентификацию пользователя
-    dispatch(fetchApiUser())
-      .unwrap()
-      .catch((error) => {
-        // Ошибка уже обработана в slice, просто логируем если нужно
-        console.log('Auth check failed:', error);
-      });
+    dispatch(fetchApiUser());
   }, [dispatch]);
-
-  // useEffect(() => {
-  //   dispatch(fetchIngredients());
-  // }, [dispatch]);
-
-  //   useEffect(() => {
-  //   dispatch(fetchApiUser())
-  //     .unwrap()
-  //     .catch((error) => {
-  //       // Ошибка уже обработана в slice, просто логируем если нужно
-  //       console.log('Auth check failed:', error);
-  //     });
-  // }, [dispatch]);
 
   return (
     <>
@@ -134,7 +117,6 @@ const RouteComponent: FC = () => {
           }
         />
 
-        {/* <Route path='/feed/:number' element={<OrderInfo />} /> */}
         <Route
           path='/feed/:number'
           element={
@@ -142,13 +124,12 @@ const RouteComponent: FC = () => {
               <p
                 className={`text text_type_digits-default ${styles.detailHeader}`}
               >
-                #{orderNumber && orderNumber.padStart(6, '0')}
+                {orderTitle}
               </p>
               <OrderInfo />
             </div>
           }
         />
-        {/* <Route path='/ingredients/:id' element={<IngredientDetails />} /> */}
         <Route
           path='/ingredients/:id'
           element={
@@ -160,15 +141,7 @@ const RouteComponent: FC = () => {
             </div>
           }
         />
-        {/* <Route
-          path='/profile/orders/:number'
-          element={
-            <ProtectedRoute>
-              <OrderInfo />
-            </ProtectedRoute>
-          }
-        /> */}
-         <Route
+        <Route
           path='/profile/orders/:number'
           element={
             <ProtectedRoute>
@@ -176,7 +149,7 @@ const RouteComponent: FC = () => {
                 <p
                   className={`text text_type_digits-default ${styles.detailHeader}`}
                 >
-                  #{orderNumber && orderNumber.padStart(6, '0')}
+                  {orderTitle}
                 </p>
                 <OrderInfo />
               </div>
@@ -191,7 +164,7 @@ const RouteComponent: FC = () => {
           <Route
             path='/feed/:number'
             element={
-              <Modal title='' onClose={handleModalClose}>
+              <Modal title={orderTitle} onClose={handleModalClose}>
                 <OrderInfo />
               </Modal>
             }
@@ -207,11 +180,11 @@ const RouteComponent: FC = () => {
           <Route
             path='/profile/orders/:number'
             element={
-              <Modal title='' onClose={handleModalClose}>
-                <ProtectedRoute>
+              <ProtectedRoute>
+                <Modal title={orderTitle} onClose={handleModalClose}>
                   <OrderInfo />
-                </ProtectedRoute>
-              </Modal>
+                </Modal>
+              </ProtectedRoute>
             }
           />
         </Routes>

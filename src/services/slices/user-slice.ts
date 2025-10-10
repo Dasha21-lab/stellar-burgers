@@ -18,9 +18,9 @@ import {
 
 export interface IUserState {
   user: TUser | null;
-  authUserCheck: boolean; // флаг завершения проверки авторизации
-  passwordForgot: boolean; // флаг успешного запроса восстановления пароля
-  passwordReset: boolean; // флаг успешного сброса пароля
+  authUserCheck: boolean;
+  passwordForgot: boolean;
+  passwordReset: boolean;
   loading: boolean;
   error: string | null | undefined;
 }
@@ -65,7 +65,6 @@ export const userSlice = createSlice({
       state.authUserCheck = false;
     }
   },
-
   extraReducers: (builder) => {
     builder
       // fetchApiUser
@@ -102,7 +101,7 @@ export const userSlice = createSlice({
       // logoutUser
       .addCase(logoutUser.fulfilled, (state) => {
         state.user = null;
-        state.authUserCheck = false;
+        state.authUserCheck = true;
         state.loading = false;
         state.error = null;
       })
@@ -149,9 +148,8 @@ export const userSlice = createSlice({
         }
       );
   },
-
   selectors: {
-    userDataSelector: (state) => state.user, // данные пользователя
+    userDataSelector: (state) => state.user,
     authUserCheckedSelector: (state) => state.authUserCheck,
     userLoadingSelector: (state) => state.loading,
     userErrorSelector: (state) => state.error,

@@ -1,7 +1,7 @@
 import { Preloader } from '@ui';
 import { FeedUI } from '@ui-pages';
 import { TOrder } from '@utils-types';
-import { FC, useCallback, useEffect } from 'react';
+import { FC, useCallback, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from '../../services/store';
 import {
   feedOrdersSelector,
@@ -16,14 +16,17 @@ export const Feed: FC = () => {
   const orders: TOrder[] = useSelector(feedOrdersSelector);
   const loading = useSelector(orderLoadingSelector);
   const error = useSelector(orderErrorSelector);
+  const didRequestRef = useRef(false);
 
   const handleGetFeeds = useCallback(() => {
     dispatch(fetchFeeds());
   }, [dispatch]);
 
   useEffect(() => {
-    handleGetFeeds();
-  }, [handleGetFeeds]);
+    if (didRequestRef.current) return;
+    didRequestRef.current = true;
+    dispatch(fetchFeeds());
+  }, [dispatch]);
 
   if (!orders.length && loading) {
     return <Preloader />;

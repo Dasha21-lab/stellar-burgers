@@ -19,8 +19,8 @@ export const fetchOrderByNumber = createAsyncThunk(
         return rejectWithValue('Заказ не найден');
       }
       return response;
-    } catch (error: any) {
-      return rejectWithValue(error.message || 'Не удалось загрузить заказ');
+    } catch (error) {
+      return rejectWithValue('Ошибка потока данных');
     }
   }
 );
@@ -32,31 +32,3 @@ export const userOrders = createAsyncThunk(
     return orders;
   }
 );
-// export const feedOrders = createAsyncThunk(
-//   `${FEED_SLICE_NAME}/feedsOrder`,
-//   async () => {
-//     const response = await getFeedsApi();
-//     return response;
-//   }
-// );
-
-// export const feedOrders = createAsyncThunk(
-//   `${FEED_SLICE_NAME}/feedsOrder`,
-//   async () => {
-//     console.log('feedOrders thunk started');
-//     try {
-//       const result = await getFeedsApi();
-//       console.log('feedOrders thunk success:', result);
-//       return result;
-//     } catch (error) {
-//       console.log('feedOrders thunk error:', error);
-//       throw error;
-//     }
-//   }
-// );
-
-// export const feedOrders = createAsyncThunk(`${FEED_SLICE_NAME}/feedsOrder`, getFeedsApi);
-// export const orderByNumber = createAsyncThunk(
-//   'order/get',
-//   async (number: number) => getOrderByNumberApi(number)
-// );

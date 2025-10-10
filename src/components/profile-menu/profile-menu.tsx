@@ -4,7 +4,6 @@ import { ProfileMenuUI } from '@ui';
 import { useDispatch } from '../../services/store';
 import { logoutUser } from '../../services/thunk/user-thunk';
 
-// отвечает  за панель управление в профили меню
 export const ProfileMenu: FC = () => {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
@@ -17,17 +16,9 @@ export const ProfileMenu: FC = () => {
         navigate('/login');
       })
       .catch((error) => {
-        console.error('Logout failed:', error);
+        console.error('Не удалось выйти:', error);
       });
   };
 
   return <ProfileMenuUI handleLogout={handleLogout} pathname={pathname} />;
 };
-
-// export const ProfileMenu: FC = () => {
-//   const { pathname } = useLocation();
-
-//   const handleLogout = () => {};
-
-//   return <ProfileMenuUI handleLogout={handleLogout} pathname={pathname} />;
-// };

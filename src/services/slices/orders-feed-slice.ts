@@ -8,8 +8,8 @@ import {
 import { TOrder, TOrdersData } from '@utils-types';
 
 export interface IOrdersFeedState {
-  feedOrders: TOrder[]; // Заказы из ленты (все пользователи)
-  userOrders: TOrder[]; // Заказы текущего пользователя
+  feedOrders: TOrder[];
+  userOrders: TOrder[];
   totalToday: number;
   total: number;
   orderDetails: TOrder | null;
@@ -38,7 +38,6 @@ export const ordersFeedSlice = createSlice({
       state.error = null;
     }
   },
-
   extraReducers: (builder) => {
     builder
       .addCase(userOrders.fulfilled, (state, action) => {
@@ -90,7 +89,6 @@ export const ordersFeedSlice = createSlice({
         state.error = null;
       });
   },
-
   selectors: {
     feedOrdersSelector: (state) => state.feedOrders,
     userOrdersSelector: (state) => state.userOrders,
