@@ -5,3 +5,11 @@
 .form {
   max-width: 480px;
 }
+
+.inputDefault :global(input) {
+  color: var(--text-inactive-color, #8585ad);
+}
+
+.inputEditingFilled :global(input) {
+  color: var(--text-primary-color, #f2f2f3);
+}

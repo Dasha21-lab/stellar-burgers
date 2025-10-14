@@ -35,6 +35,11 @@ export const ProfileUI: FC<ProfileUIProps> = ({
             errorText={''}
             size={'default'}
             icon={'EditIcon'}
+            extraClass={
+              isFormChanged && formValue.name
+                ? styles.inputEditingFilled
+                : styles.inputDefault
+            }
           />
         </div>
         <div className='pb-6'>
@@ -48,6 +53,11 @@ export const ProfileUI: FC<ProfileUIProps> = ({
             errorText={''}
             size={'default'}
             icon={'EditIcon'}
+            extraClass={
+              isFormChanged && formValue.email
+                ? styles.inputEditingFilled
+                : styles.inputDefault
+            }
           />
         </div>
         <div className='pb-6'>
@@ -61,6 +71,12 @@ export const ProfileUI: FC<ProfileUIProps> = ({
             errorText={''}
             size={'default'}
             icon={'EditIcon'}
+            autoComplete={'new-password'}
+            extraClass={
+              isFormChanged && formValue.password
+                ? styles.inputEditingFilled
+                : styles.inputDefault
+            }
           />
         </div>
         {isFormChanged && (
