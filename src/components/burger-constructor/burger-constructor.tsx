@@ -1,10 +1,7 @@
 import { FC, useEffect, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
-import {
-  clearConstructor,
-  constructorItemsSelector
-} from '../../services/slices/constructor-burger-slice';
+import { constructorItemsSelector } from '../../services/slices/constructor-burger-slice';
 import {
   orderModalDataSelector,
   createOrderRequestSelector,
@@ -46,7 +43,6 @@ export const BurgerConstructor: FC = () => {
 
   const closeOrderModal = () => {
     dispatch(clearOrderModalData());
-    dispatch(clearConstructor());
   };
 
   useEffect(() => {
