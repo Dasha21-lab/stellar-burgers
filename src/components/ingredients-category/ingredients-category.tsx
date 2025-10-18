@@ -8,7 +8,7 @@ import { constructorItemsSelector } from '../../services/slices/constructor-burg
 export const IngredientsCategory = forwardRef<
   HTMLUListElement,
   TIngredientsCategoryProps
->(({ title, titleRef, ingredients }, ref) => {
+>(({ title, titleRef, ingredients, ...props }, ref) => {
   const burgerConstructor = useSelector(constructorItemsSelector);
 
   const ingredientsCounters = useMemo(() => {
@@ -29,6 +29,7 @@ export const IngredientsCategory = forwardRef<
       ingredients={ingredients}
       ingredientsCounters={ingredientsCounters}
       ref={ref}
+      {...props}
     />
   );
 });

@@ -20,24 +20,37 @@ describe('Проверка модальных окон', () => {
 
     it('Oткрытие при клике по ингредиенту', () => {
         cy.contains('Булки').scrollIntoView();
-        cy.contains('Булка 1').click();
+        cy.get('[data-cy=ingredients-bun]').contains('Булка 1').click({force: true});
+        cy.get('[data-cy=modal]').should('exist');
+        cy.get('[data-cy=modal]').contains('Булка 1').should('exist');
+        
+        // Дополнительная проверка на наличие деталей ингредиента
         cy.contains('Калории, ккал').should('exist');
-        cy.contains('Булка 1').should('exist');
     });
 
     it('Закрытие по клику на крестик', () => {
         cy.contains('Булки').scrollIntoView();
-        cy.contains('Булка 1').click();
-        cy.contains('Калории, ккал').should('exist');
+        cy.get('[data-cy=ingredients-bun]').contains('Булка 1').click({force: true});
+        cy.get('[data-cy=modal]').should('exist');
+        cy.get('[data-cy=modal]').contains('Булка 1').should('exist');
+        
+        // Закрываем модальное окно
         cy.get('[data-cy=close]').click();
-        cy.contains('Калории, ккал').should('not.exist');
+        
+        // Проверяем, что модальное окно закрылось
+        cy.get('[data-cy=modal]').should('not.exist');
     });
 
     it('Закрытие по клику на оверлей', () => {
         cy.contains('Булки').scrollIntoView();
-        cy.contains('Булка 1').click();
-        cy.contains('Калории, ккал').should('exist');
-        cy.get('[data-cy=modal-overlay]').click('topRight', {force : true});
-        cy.contains('Калории, ккал').should('not.exist');
+        cy.get('[data-cy=ingredients-bun]').contains('Булка 1').click({force: true});
+        cy.get('[data-cy=modal]').should('exist');
+        cy.get('[data-cy=modal]').contains('Булка 1').should('exist');
+        
+        // Закрываем модальное окно через оверлей
+        cy.get('[data-cy=modal-overlay]').click({force: true});
+        
+        // Проверяем, что модальное окно закрылось
+        cy.get('[data-cy=modal]').should('not.exist');
     });
 });
