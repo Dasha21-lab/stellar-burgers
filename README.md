@@ -1,8 +1,6 @@
-# Проектная работа 11-го спринта
+# Проектная работа 11-го - 12-го спринта 
 
-[Макет](<https://www.figma.com/file/vIywAvqfkOIRWGOkfOnReY/React-Fullstack_-Проектные-задачи-(3-месяца)_external_link?type=design&node-id=0-1&mode=design>)
-
-[Чеклист](https://www.notion.so/praktikum/0527c10b723d4873aa75686bad54b32e?pvs=4)
+[Макет](<https://www.figma.com/design/MwEhTegsl6IARxQ2ad4tW4/Stellar-burgers?node-id=0-1&p=f&t=zKwZZbqoqTUFLIn2-0>)
 
 ## Этапы работы:
 
@@ -14,6 +12,6 @@
 
 4. Настройте авторизацию и создайте защищённые роуты.
 
-## Важно:
+5. Интеграционные тесты на Cypress.
 
-Для корректной работы запросов к серверу необходимо добавить переменную BURGER_API_URL в окружение. Сама ссылка находится в файле `.env.example`.
+6. Тесты на Jest.
